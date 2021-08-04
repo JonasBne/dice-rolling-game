@@ -23,7 +23,6 @@ const userInterface = new UserInterfaceComponents();
 class ScoreCalculations {
     currentScore: number;
 
-
     constructor() {
         this.currentScore = 0;
     }
@@ -40,9 +39,24 @@ class ScoreCalculations {
         // show dice in user interface
         userInterface.currentDiceRollContainer.innerHTML = dice.toString();
 
-        // if number of eyes is 1 then player gets switched
-        if (dice === 1) {
-            console.log("Switch player!")
+        // if number of eyes is 1 then player gets switched and score of current player reset
+        if (dice === 1 && players.determineCurrentPlayer() === 'Player-1') {
+            // change active state from player 1 to player 2
+            players.player1.classList.remove('player--active');
+            players.player2.classList.add('player--active');
+
+            // reset score of active player 1
+            userInterface.currentScorePlayer1.innerHTML = '0';
+
+
+        } else if (dice === 1 && players.determineCurrentPlayer() === 'Player-2') {
+            // change active state from player 1 to player 2
+            players.player2.classList.remove('player--active');
+            players.player1.classList.add('player--active');
+
+            // reset score of active player 1
+            userInterface.currentScorePlayer2.innerHTML = '0';
+
         } else {
             // else add number of eyes to score
             this.addScoreToCurrentScore(dice)
@@ -59,6 +73,29 @@ class ScoreCalculations {
 }
 
 // class to determine which player is active
+class Player {
+    player1: HTMLElement;
+    player2: HTMLElement;
+
+    constructor() {
+        this.player1 = document.getElementById("player--0")! as HTMLElement;
+        this.player2 = document.getElementById("player--1")! as HTMLElement;
+    }
+
+    determineCurrentPlayer() {
+        let currentPlayer: string;
+
+        if (this.player1.classList.contains("player--active")) {
+            currentPlayer = 'Player-1'
+        } else {
+            currentPlayer = 'Player-2'
+        }
+        return currentPlayer;
+    }
+}
+
+// @ts-ignore
+const players = new Player();
 
 // @ts-ignore
 const scoreCalculations = new ScoreCalculations();
