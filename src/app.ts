@@ -1,18 +1,23 @@
 // import styling
 import './css/custom.scss'
 
+// reset game each time when page gets reloaded
+//window.onload()
+
 // class for user interface components
 class UserInterfaceComponents {
     rollDiceBtn: HTMLButtonElement;
     currentDiceRollContainer: HTMLDivElement;
     currentScorePlayer1: HTMLParagraphElement;
     currentScorePlayer2: HTMLParagraphElement;
+    newGameBtn: HTMLButtonElement;
 
     constructor() {
         this.rollDiceBtn = document.getElementById("roll-btn")! as HTMLButtonElement;
         this.currentDiceRollContainer = document.getElementById("current-dice-roll-score")! as HTMLDivElement;
         this.currentScorePlayer1 = document.getElementById("current--0")!  as HTMLParagraphElement;
         this.currentScorePlayer2 = document.getElementById("current--1")!  as HTMLParagraphElement;
+        this.newGameBtn = document.getElementById("new-btn")! as HTMLButtonElement;
     }
 }
 
@@ -67,9 +72,12 @@ class ScoreCalculations {
     addScoreToCurrentScore(dice: number) {
         this.currentScore = this.currentScore + dice;
 
-        userInterface.currentScorePlayer1.innerHTML = this.currentScore.toString();
+        if (players.determineCurrentPlayer() === 'Player-1') {
+            userInterface.currentScorePlayer1.innerHTML = this.currentScore.toString();
+    } else {
+            userInterface.currentScorePlayer2.innerHTML = this.currentScore.toString();
+        }
     }
-
 }
 
 // class to determine which player is active
@@ -109,6 +117,22 @@ class eventListeners {
         userInterface.rollDiceBtn.addEventListener("click", () => {
             // on each click calculate the current score
             scoreCalculations.updateCurrentPlayerScore();
+        })
+
+        // click event on new game button
+        userInterface.newGameBtn.addEventListener("click", () => {
+            // reset scores
+            userInterface.currentScorePlayer1.innerHTML = '0';
+            userInterface.currentScorePlayer2.innerHTML = '0';
+
+            // set player 1 as active player
+            if(!players.player1.classList.contains('player--active')) {
+                players.player1.classList.add('player--active');
+                players.player2.classList.remove('player--active');
+            }
+
+            // reset dice
+            userInterface.currentDiceRollContainer.innerHTML = '';
         })
     }
 }
