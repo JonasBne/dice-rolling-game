@@ -81,7 +81,7 @@ main {
 }
 
 .current {
-  background-color: #c7365f;
+  background-color: #47797A;
   opacity: 0.8;
   border-radius: 9px;
   color: #fff;
@@ -100,6 +100,18 @@ main {
 
 .current-score {
   font-size: 3.5rem;
+}
+
+.dice-roll {
+  width: 15rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: linear-gradient(to top left, color.$background-color-dark 0%, color.$background-color-light 100%);
+}
+
+.current-dice-roll-score {
+  font-size: 15rem;
 }
 
 /* ABSOLUTE POSITIONED ELEMENTS */
