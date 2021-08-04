@@ -1,9 +1,6 @@
 // import styling
 import './css/custom.scss'
 
-// reset game each time when page gets reloaded
-//window.onload()
-
 // class for user interface components
 class UserInterfaceComponents {
     rollDiceBtn: HTMLButtonElement;
@@ -52,6 +49,7 @@ class ScoreCalculations {
 
             // reset score of active player 1
             userInterface.currentScorePlayer1.innerHTML = '0';
+            this.currentScore = 0;
 
 
         } else if (dice === 1 && players.determineCurrentPlayer() === 'Player-2') {
@@ -61,6 +59,7 @@ class ScoreCalculations {
 
             // reset score of active player 1
             userInterface.currentScorePlayer2.innerHTML = '0';
+            this.currentScore = 0;
 
         } else {
             // else add number of eyes to score
@@ -76,6 +75,15 @@ class ScoreCalculations {
             userInterface.currentScorePlayer1.innerHTML = this.currentScore.toString();
     } else {
             userInterface.currentScorePlayer2.innerHTML = this.currentScore.toString();
+        }
+    }
+
+    // determine winner
+    determineWinner() {
+        if (players.determineCurrentPlayer() === 'Player-1' && this.currentScore >= 100) {
+            players.player1.classList.add('player--winner');
+        } else if (players.determineCurrentPlayer() === 'Player-2' && this.currentScore >= 100) {
+            players.player2.classList.add('player-winner');
         }
     }
 }
@@ -124,6 +132,7 @@ class eventListeners {
             // reset scores
             userInterface.currentScorePlayer1.innerHTML = '0';
             userInterface.currentScorePlayer2.innerHTML = '0';
+            scoreCalculations.currentScore = 0;
 
             // set player 1 as active player
             if(!players.player1.classList.contains('player--active')) {
