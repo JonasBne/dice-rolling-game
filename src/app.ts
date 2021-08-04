@@ -1,50 +1,82 @@
 // import styling
 import './css/custom.scss'
 
+// class for user interface components
 class UserInterfaceComponents {
-    rollBtn: HTMLButtonElement;
+    rollDiceBtn: HTMLButtonElement;
+    currentDiceRollContainer: HTMLDivElement;
+    currentScorePlayer1: HTMLParagraphElement;
+    currentScorePlayer2: HTMLParagraphElement;
 
     constructor() {
-        this.rollBtn = document.getElementById("roll-btn")! as HTMLButtonElement;
+        this.rollDiceBtn = document.getElementById("roll-btn")! as HTMLButtonElement;
+        this.currentDiceRollContainer = document.getElementById("current-dice-roll-score")! as HTMLDivElement;
+        this.currentScorePlayer1 = document.getElementById("current--0")!  as HTMLParagraphElement;
+        this.currentScorePlayer2 = document.getElementById("current--1")!  as HTMLParagraphElement;
     }
 }
 
-const userInterfaceComponents = new UserInterfaceComponents();
+// instantiate class to be used globally
+const userInterface = new UserInterfaceComponents();
+
+// class for score calculations
+class ScoreCalculations {
+    currentScore: number;
 
 
-// class for game input
-class PlayerInteractions {
     constructor() {
-        // click event on roll dice button
-        userInterfaceComponents.rollBtn.addEventListener("click", () => {
-            scoreCalculations.insertCurrentDiceRollScore();
-        })
+        this.currentScore = 0;
     }
 
-    // method to generate random number on click
+    // generate a random number between 1 and 6
     generateRandomNumber() {
         return Math.trunc(Math.random() * 6 + 1);
     }
-}
 
-// @ts-ignore
-const playerInteraction = new PlayerInteractions()
+    // add number to current score
+    updateCurrentPlayerScore() {
+        const dice = this.generateRandomNumber();
 
-// class for scores
-class ScoreCalculations {
-    currentDiceRollScoreContainer: HTMLDivElement;
+        // show dice in user interface
+        userInterface.currentDiceRollContainer.innerHTML = dice.toString();
 
-    constructor() {
-        this.currentDiceRollScoreContainer = document.getElementById("current-dice-roll-score")! as HTMLDivElement;
+        // if number of eyes is 1 then player gets switched
+        if (dice === 1) {
+            console.log("Switch player!")
+        } else {
+            // else add number of eyes to score
+            this.addScoreToCurrentScore(dice)
+        }
     }
 
-    // method to insert number of eyes into DOM
-    insertCurrentDiceRollScore() {
-        const currentDiceRollScore = playerInteraction.generateRandomNumber();
-        this.currentDiceRollScoreContainer.innerText = currentDiceRollScore.toString();
+    // add score and insert in DOM
+    addScoreToCurrentScore(dice: number) {
+        this.currentScore = this.currentScore + dice;
+
+        userInterface.currentScorePlayer1.innerHTML = this.currentScore.toString();
     }
 
 }
+
+// class to determine which player is active
 
 // @ts-ignore
 const scoreCalculations = new ScoreCalculations();
+
+
+
+// class with event listeners
+class eventListeners {
+    constructor() {
+        // click event on roll dice button
+        userInterface.rollDiceBtn.addEventListener("click", () => {
+            // on each click calculate the current score
+            scoreCalculations.updateCurrentPlayerScore();
+        })
+    }
+}
+
+// @ts-ignore
+const evListeners = new eventListeners()
+
+
