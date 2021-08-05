@@ -2,6 +2,9 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
 
+.hidden {
+  display: none;
+}
 
 * {
   margin: 0;
@@ -104,6 +107,7 @@ main {
 
 .dice-roll {
   width: 12rem;
+  color: ghostwhite;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -178,5 +182,5 @@ main {
 
 .player--winner .name {
   font-weight: 700;
-  color: #c7365f;
+  color: #47797A;
 }
